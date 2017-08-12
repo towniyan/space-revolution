@@ -1,6 +1,7 @@
 import javafx.scene.canvas.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.*;
+import java.util.*;
 
 public class Game extends GameBase {
 	private static Game game;
@@ -47,10 +48,18 @@ public class Game extends GameBase {
 		Playground.get().add("hud",
 			new Text("" + getScore(), Settings.WIDTH - 50, 20)
 		);
+
+		Playground.get().getItem("ball").setVelocity(new int[]{5, 5});
+
+		new Timer().scheduleAtFixedRate(new TimerTask () {
+			public void run () {
+				Playground.get().getItem("ball").accelerate(new int[]{1, 1});
+			}
+		}, 0, 2000);
 	}
 
 	public void step () {
-
+		
 	}
 
 	public void onKeyPress (KeyCode code) {

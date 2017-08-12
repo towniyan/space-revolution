@@ -14,8 +14,6 @@ public class Ball extends GameObject {
 
 		setShape(new Circle(x, y, size, color));
 		Playground.get().addSceneItem(getShape());
-
-		setVelocity(new int[]{5, 5});
 	}
 
 	public void step () {

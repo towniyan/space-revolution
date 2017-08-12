@@ -73,6 +73,7 @@ public class Run extends Application {
 			Playground.get().getScene()
 		);
 
+		centerStage(stage);
 		Game.set(new Game());
 	}
 
@@ -121,5 +122,11 @@ public class Run extends Application {
 				Settings.BACKGROUND
 			)
 		);
+	}
+
+	public void centerStage (Stage stage) {
+		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+	    stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2); 
+	    stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
 	}
 }

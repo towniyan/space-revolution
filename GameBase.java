@@ -52,6 +52,9 @@ public abstract class GameBase {
 		running = false;
 		Playground.get().getScene().setOnMouseMoved(null);
 		Playground.get().getScene().setOnKeyPressed(null);
+
+		Playground.get().add("gameover", new Text("GAME OVER WITH " + score + " SCORE!", (Settings.WIDTH / 2) - 120, Settings.HEIGHT / 2));
+		Score.save(score);
 	}
 
 	public void onKeyPress (KeyCode code) {

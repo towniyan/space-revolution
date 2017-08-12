@@ -72,4 +72,16 @@ public abstract class GameObject {
 			return true;
 		return false;
 	}
+
+	public void accelerate (int[] components) {
+		if (velocity[0] > 0)
+			velocity[0] += components[0];
+		else if (velocity[0] < 0)
+			velocity[0] -= components[0];
+
+		if (velocity[1] > 0)
+			velocity[1] += components[1];
+		else if (velocity[1] < 0)
+			velocity[1] -= components[1];
+	}
 }
