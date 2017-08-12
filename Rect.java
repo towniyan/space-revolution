@@ -3,16 +3,16 @@ import javafx.scene.*;
 import javafx.css.*;
 import javafx.scene.paint.*;
 
-public class Box extends GameObject {
+public class Rect extends GameObject {
 	private int width = 10, height = 10;
 	private Color color = Color.web("orange");
 
-	public Box (int x, int y, int width, int height, Color color) {
+	public Rect (int x, int y, int width, int height, Color color) {
 		this.width = width;
 		this.height = height;
 		this.color = color;
 
-		setShape(
+		attach(
 			new Rectangle(
 				(double) x,
 				(double) y,
@@ -20,11 +20,11 @@ public class Box extends GameObject {
 				(double) height
 			)
 		);
-		getShape().setFill(color);
-		Playground.get().addSceneItem(getShape());
+		((Rectangle) getAttachment()).setFill(color);
+		SceneHolder.get().addSceneItem(getAttachment());
 	}
 
 	public void step () {
-		// if (getShape().getBoundsInParent().intersects())
+
 	}
 }

@@ -59,10 +59,11 @@ public class Run extends Application {
 	}
 
 	public void play (Stage stage) {
-		Playground.set(new Playground());
-		Playground.get().setScene(
+		GameObjectsHolder.set(new GameObjectsHolder());
+		SceneHolder.set(new SceneHolder());
+		SceneHolder.get().setScene(
 			new Scene(
-				Playground.get().getSceneItems(),
+				SceneHolder.get().getSceneItems(),
 				Settings.WIDTH,
 				Settings.HEIGHT,
 				Settings.BACKGROUND
@@ -70,7 +71,7 @@ public class Run extends Application {
 		);
 
 		stage.setScene(
-			Playground.get().getScene()
+			SceneHolder.get().getScene()
 		);
 
 		centerStage(stage);

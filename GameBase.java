@@ -14,13 +14,13 @@ public abstract class GameBase {
 	public GameBase () {
 		init();
 
-		Playground.get().getScene().setOnMouseMoved(new EventHandler<MouseEvent> () {
+		SceneHolder.get().getScene().setOnMouseMoved(new EventHandler<MouseEvent> () {
 			public void handle (MouseEvent e) {
 				onMouseMoved((int) e.getX(), (int) e.getY());
 			}
 		});
 
-		Playground.get().getScene().setOnKeyPressed(new EventHandler<KeyEvent> () {
+		SceneHolder.get().getScene().setOnKeyPressed(new EventHandler<KeyEvent> () {
 			public void handle (KeyEvent e) {
 				onKeyPress(e.getCode());
 			}
@@ -45,15 +45,15 @@ public abstract class GameBase {
 	// General
 	public void incrementScore () {
 		score++;
-		((Text) Playground.get().getItem("hud")).setText("" + score);
+		((Text) GameObjectsHolder.get().getItem("hud")).setText("" + score);
 	}
 
 	public void stop () {
 		running = false;
-		Playground.get().getScene().setOnMouseMoved(null);
-		Playground.get().getScene().setOnKeyPressed(null);
+		SceneHolder.get().getScene().setOnMouseMoved(null);
+		SceneHolder.get().getScene().setOnKeyPressed(null);
 
-		Playground.get().add("gameover", new Text("GAME OVER WITH " + score + " SCORE!", (Settings.WIDTH / 2) - 120, Settings.HEIGHT / 2));
+		GameObjectsHolder.get().add("gameover", new Text("GAME OVER WITH " + score + " SCORE!", (Settings.WIDTH / 2) - 120, Settings.HEIGHT / 2));
 		Score.save(score);
 	}
 

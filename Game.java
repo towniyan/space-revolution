@@ -1,6 +1,7 @@
 import javafx.scene.canvas.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.*;
+import javafx.scene.*;
 import java.util.*;
 
 public class Game extends GameBase {
@@ -15,47 +16,13 @@ public class Game extends GameBase {
 	}
 
 	public void init () {
-		Playground.get().add("ball",
-			new Ball(
-				50, 50, 10, Color.web("orange")
-			)
+		GameObjectsHolder g = GameObjectsHolder.get();
+
+		g.add("player",
+			new Player(Settings.WIDTH / 2, Settings.HEIGHT - 100)
 		);
 
-		Playground.get().add("top",
-			new Box(
-				0, 0, Settings.WIDTH, 10, Color.web("yellow")
-			)
-		);
-
-		Playground.get().add("left",
-			new Box(
-				0, 10, 10, Settings.HEIGHT - 10, Color.web("yellow")
-			)
-		);
-
-		Playground.get().add("right",
-			new Box(
-				Settings.WIDTH - 10, 10, 10, Settings.HEIGHT - 10, Color.web("yellow")
-			)
-		);
-
-		Playground.get().add("paddle",
-			new Box(
-				Settings.WIDTH / 2, Settings.HEIGHT - 30, 100, 15, Color.web("pink")
-			)
-		);
-
-		Playground.get().add("hud",
-			new Text("" + getScore(), Settings.WIDTH - 50, 20)
-		);
-
-		Playground.get().getItem("ball").setVelocity(new int[]{5, 5});
-
-		new Timer().scheduleAtFixedRate(new TimerTask () {
-			public void run () {
-				Playground.get().getItem("ball").accelerate(new int[]{1, 1});
-			}
-		}, 0, 2000);
+		// Playground.get().getScene().setCursor(Cursor.NONE);
 	}
 
 	public void step () {
@@ -63,11 +30,25 @@ public class Game extends GameBase {
 	}
 
 	public void onKeyPress (KeyCode code) {
-		
+		GameObject player = GameObjectsHolder.get().getItem("player");
+		switch (code) {
+			case W:
+				player.setBoost(new int[]{0, -2}, 1);
+				break;
+			case S:
+				player.setBoost(new int[]{0, 2}, 1);
+				break;
+			case A:
+				player.setBoost(new int[]{-2, 0}, 1);
+				break;
+			case D:
+				player.setBoost(new int[]{2, 0}, 1);
+				break;
+		}
 	}
 
 	public void onMouseMoved (int x, int y) {
-		if (x >= 10 && x <= Settings.WIDTH - Playground.get().getItem("paddle").getWidth() - 10)
-			Playground.get().getItem("paddle").getShape().relocate(x, Playground.get().getItem("paddle").getY());
+		GameObject player = GameObjectsHolder.get().getItem("player");
+		player.getAttachment().relocate(x, player.getY());
 	}
 }
