@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Game extends GameBase {
 	private static Game game;
+	private int counter = 0;
 
 	public static void set (Game game) {
 		Game.game = game;
@@ -22,33 +23,46 @@ public class Game extends GameBase {
 			new Player(Settings.WIDTH / 2, Settings.HEIGHT - 100)
 		);
 
+		g.add("score",
+			new Text("Score: 0", 25, 25)
+		);
+
+		g.add("bottom",
+			new Rect(0, Settings.HEIGHT, Settings.WIDTH, 1, Color.web("black"))
+		);
+
 		// Playground.get().getScene().setCursor(Cursor.NONE);
 	}
 
 	public void step () {
-		
-	}
-
-	public void onKeyPress (KeyCode code) {
-		GameObject player = GameObjectsHolder.get().getItem("player");
-		switch (code) {
-			case W:
-				player.setBoost(new int[]{0, -2}, 1);
-				break;
-			case S:
-				player.setBoost(new int[]{0, 2}, 1);
-				break;
-			case A:
-				player.setBoost(new int[]{-2, 0}, 1);
-				break;
-			case D:
-				player.setBoost(new int[]{2, 0}, 1);
-				break;
+		GameObjectsHolder g = GameObjectsHolder.get();
+		if (counter == 100) {
+			g.add(
+				new Enemy(
+					100 + 
+					100 + (Math.random() * ((Settings.WIDTH - 100) - 100)),
+					30
+				)
+			);
+			counter = 0;
 		}
+		counter++;
 	}
 
 	public void onMouseMoved (int x, int y) {
 		GameObject player = GameObjectsHolder.get().getItem("player");
 		player.getAttachment().relocate(x, player.getY());
+	}
+
+	public void onMouseClicked (int x, int y) {
+		GameObjectsHolder g = GameObjectsHolder.get();
+		GameObject player = g.getItem("player");
+
+		g.add(
+			new Bullet(
+				(player.getX() + player.getAttachment().getBoundsInParent().getMaxX()) / 2,
+				player.getY()
+			)
+		);
 	}
 }

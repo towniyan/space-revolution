@@ -31,4 +31,8 @@ public class GameObjectsHolder {
 		items.add(go);
 		itemsHashed.put(name, go);
 	}
+
+	public void add (GameObject go) {
+		items.add(go);
+	}
 }

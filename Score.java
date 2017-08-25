@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Score {
+	public static int score = 0;
+
 	public static void save (int score) {
 		String currentLine, previousLine = null;
 		try {

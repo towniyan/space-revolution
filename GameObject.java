@@ -4,8 +4,8 @@ import javafx.geometry.*;
 
 public abstract class GameObject {
 	private Node attachment;
-	private int[] velocity = {0, 0};
-	private int[] boost = {0, 0, 0};
+	private double[] velocity = {0, 0};
+	// private int[] boost = {0, 0, 0};
 
 	public abstract void step ();
 
@@ -18,24 +18,24 @@ public abstract class GameObject {
 		this.attachment = attachment;
 	}
 
-	public void setVelocity (int[] velocity) {
+	public void setVelocity (double[] velocity) {
 		this.velocity = velocity;
 	}
 
-	public int getX () {
-		return (int) attachment.getBoundsInParent().getMinX();
+	public double getX () {
+		return attachment.getBoundsInParent().getMinX();
 	}
 
-	public int getY () {
-		return (int) attachment.getBoundsInParent().getMinY();
+	public double getY () {
+		return attachment.getBoundsInParent().getMinY();
 	}
 
-	public int getWidth () {
-		return (int) (getBounds().getMaxX() - getBounds().getMinX());
+	public double getWidth () {
+		return (getBounds().getMaxX() - getBounds().getMinX());
 	}
 
-	public int getHeight () {
-		return (int) (getBounds().getMaxY() - getBounds().getMinY());
+	public double getHeight () {
+		return (getBounds().getMaxY() - getBounds().getMinY());
 	}
 
 	public Bounds getBounds () {
@@ -48,11 +48,11 @@ public abstract class GameObject {
 		attachment.setLayoutY(attachment.getLayoutY() + velocity[1]);
 	}
 
-	public void moveX (int x) {
+	public void moveX (double x) {
 		attachment.setLayoutX(attachment.getLayoutX() + x);
 	}
 
-	public void moveY (int y) {
+	public void moveY (double y) {
 		attachment.setLayoutY(attachment.getLayoutY() + y);
 	}
 
@@ -67,6 +67,15 @@ public abstract class GameObject {
 	public boolean collidesWith(String go) {
 		if (getBounds().intersects(
 				Playground.get().getItem(go).getBounds()
+			)
+		)
+			return true;
+		return false;
+	}
+
+	public boolean collidesWith(GameObject go) {
+		if (getBounds().intersects(
+				go.getBounds()
 			)
 		)
 			return true;
@@ -90,18 +99,18 @@ public abstract class GameObject {
 		velocity[1] += components[1];
 	}
 
-	public void boost () {
-		if (boost[2] > 0) {
-			accelerateBlindly(new int[] {boost[0], boost[1]});
-			boost[2]--;
-		}
-	}
+	// public void boost () {
+	// 	if (boost[2] > 0) {
+	// 		accelerateBlindly(new int[] {boost[0], boost[1]});
+	// 		boost[2]--;
+	// 	}
+	// }
 
-	public void setBoost (int[] a, int fuel) {
-		boost[0] = a[0];
-		boost[1] = a[1];
-		boost[2] = fuel;
-	}
+	// public void setBoost (int[] a, int fuel) {
+	// 	boost[0] = a[0];
+	// 	boost[1] = a[1];
+	// 	boost[2] = fuel;
+	// }
 
 	public void decelerate (int[] components) {
 		if (velocity[0] > 0)
@@ -125,5 +134,21 @@ public abstract class GameObject {
 			velocity[1] -= intensity;
 		else if (velocity[1] < 0)
 			velocity[1] += intensity;
+	}
+
+	public static void destroy (GameObject object) {
+		for (int i = 0; i < GameObjectsHolder.get().getItems().size(); i++) {
+			GameObject go = GameObjectsHolder.get().getItems().get(i);
+			if (go.equals(object)) {
+				GameObjectsHolder.get().getItems().remove(i);
+			}
+		}
+
+		for (int i = 0; i < SceneHolder.get().getSceneItems().getChildren().size(); i++) {
+			Node node = SceneHolder.get().getSceneItems().getChildren().get(i);
+			if (node.equals(object.getAttachment())) {
+				SceneHolder.get().getSceneItems().getChildren().remove(i);
+			}
+		}
 	}
 }

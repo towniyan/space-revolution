@@ -20,6 +20,12 @@ public abstract class GameBase {
 			}
 		});
 
+		SceneHolder.get().getScene().setOnMouseClicked(new EventHandler<MouseEvent> () {
+			public void handle (MouseEvent e) {
+				onMouseClicked((int) e.getX(), (int) e.getY());
+			}
+		});
+
 		SceneHolder.get().getScene().setOnKeyPressed(new EventHandler<KeyEvent> () {
 			public void handle (KeyEvent e) {
 				onKeyPress(e.getCode());
@@ -62,6 +68,10 @@ public abstract class GameBase {
 	}
 
 	public void onMouseMoved (int x, int y) {
+
+	}
+
+	public void onMouseClicked (int x, int y) {
 
 	}
 }

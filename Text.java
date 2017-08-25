@@ -14,7 +14,7 @@ public class Text extends GameObject {
 		label.setFont(new Font("Arial", (double) 20));
 		label.setTextFill(Color.web("white"));
 
-		Playground.get().addSceneItem(label);
+		SceneHolder.get().addSceneItem(label);
 	}
 
 	public void setText (String text) {

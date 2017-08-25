@@ -13,15 +13,18 @@ public class Player extends GameObject {
 		getAttachment().relocate(x, y);
 		SceneHolder.get().addSceneItem(getAttachment());
 
-		new Timer().scheduleAtFixedRate(new TimerTask() {
-			public void run () {
-				slowDown(1);
+		for (int i = 0; i < GameObjectsHolder.get().getItems().size(); i++) {
+			GameObject go = GameObjectsHolder.get().getItems().get(i);
+			if (go instanceof Enemy) {
+				if (collidesWith(go)) {
+					Score.save(Score.score);
+					System.exit(0);
+				}
 			}
-		}, 0, 100);
+		}
 	}
 
 	public void step () {
 		move();
-		boost();
 	}
 }
